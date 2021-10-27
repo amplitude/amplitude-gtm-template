@@ -872,7 +872,8 @@ const templateStorage = require('templateStorage');
 
 // Constants
 const INSTANCES_STORAGE_KEY = 'amplitude_instances';
-const JS_URL = 'https://storage.googleapis.com/simo_test_public/amplitude-wrapper.js';
+const WRAPPER_VERSION = '1.0.1';
+const JS_URL = 'https://cdn.jsdelivr.net/npm/@amplitude/amplitude-js-gtm@' + WRAPPER_VERSION + '/dist/index.js';
 const LOG_PREFIX = '[Amplitude / GTM] ';
 const WRAPPER_NAMESPACE = '_amplitude';
 
@@ -1103,7 +1104,7 @@ ___WEB_PERMISSIONS___
             "listItem": [
               {
                 "type": 1,
-                "string": "https://storage.googleapis.com/simo_test_public/amplitude-wrapper.js"
+                "string": "https://cdn.jsdelivr.net/npm/@amplitude/amplitude-js-gtm*"
               }
             ]
           }
@@ -1136,6 +1137,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 26/10/2021, 10:05:13
+Created on 27/10/2021, 18:34:01
 
 
