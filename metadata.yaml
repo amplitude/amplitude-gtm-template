@@ -1,0 +1,7 @@
+homepage: "https://www.amplitude.com/"
+documentation: "https://developers.amplitude.com/docs/javascript"
+versions:
+  # Latest version
+  - sha: df0352a1b2ef764db3ef063cbc7b58c053f0b6e1
+    changeNotes: Initial release
+  # Older versions
