@@ -2,6 +2,8 @@ homepage: "https://www.amplitude.com/"
 documentation: "https://developers.amplitude.com/docs/javascript"
 versions:
   # Latest version
+  - sha: 20e96d2fe492ac3ad1f2b43cafb9e02c1966df37
+    changeNotes: Change library values to amplitude-js-gtm
+  # Older versions
   - sha: df0352a1b2ef764db3ef063cbc7b58c053f0b6e1
     changeNotes: Initial release
-  # Older versions
