@@ -1,4 +1,4 @@
-﻿___TERMS_OF_SERVICE___
+___TERMS_OF_SERVICE___
 
 By creating or modifying this file you agree to Google Tag Manager's Community
 Template Gallery Developer Terms of Service available at
@@ -883,7 +883,7 @@ const templateStorage = require('templateStorage');
 
 // Constants
 const INSTANCES_STORAGE_KEY = 'amplitude_instances';
-const WRAPPER_VERSION = '2.0.0';
+const WRAPPER_VERSION = '2.0.1';
 const JS_URL = 'https://cdn.jsdelivr.net/npm/@amplitude/amplitude-js-gtm@' + WRAPPER_VERSION + '/dist/index.js';
 const LOG_PREFIX = '[Amplitude / GTM] ';
 const WRAPPER_NAMESPACE = '_amplitude';
