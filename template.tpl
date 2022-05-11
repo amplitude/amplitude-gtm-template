@@ -883,7 +883,7 @@ const templateStorage = require('templateStorage');
 
 // Constants
 const INSTANCES_STORAGE_KEY = 'amplitude_instances';
-const WRAPPER_VERSION = '2.0.1';
+const WRAPPER_VERSION = '2.0.2';
 const JS_URL = 'https://cdn.jsdelivr.net/npm/@amplitude/amplitude-js-gtm@' + WRAPPER_VERSION + '/dist/index.js';
 const LOG_PREFIX = '[Amplitude / GTM] ';
 const WRAPPER_NAMESPACE = '_amplitude';
@@ -952,14 +952,14 @@ const onsuccess = () => {
 
   _amplitude = copyFromWindow(WRAPPER_NAMESPACE);
   if (!_amplitude) return fail('Failed to load the Amplitude namespace');
-  
+
   initializeInstance();
-  
+
   switch (data.type) {
-    
+
     case 'event':
       const eventProperties = makeTableMap(data.eventProperties || [], 'name', 'value');
-      
+
       // Convert comma-separated groupName into an array of groupNames
       const eventGroups = makeTableMap((data.eventGroups || []).map(group => {
         return {
@@ -976,7 +976,7 @@ const onsuccess = () => {
         callAmplitude('logEvent', data.eventType, eventProperties);
       }
       break;
-    
+
     case 'revenue':
       const revenueObject = data.revenueVariable || {
         id: data.revenueId,
@@ -987,30 +987,30 @@ const onsuccess = () => {
       };
       // Validate revenueObject
       if (!revenueObject.id || !revenueObject.price) return fail('Missing required "id" and/or "price" from the Revenue object');
-     
+
       revenueObject.id = makeString(revenueObject.id);
       revenueObject.price = makeNumber(revenueObject.price);
       revenueObject.quantity = makeNumber(revenueObject.quantity);
       callAmplitude(data.type, revenueObject);
       break;
-    
+
     case 'identify':
       const userProps = data.userPropertyOperations || [];
       callAmplitude('identify', userProps.map(op => {
         return [op.command, op.userProperty, normalize(op.value)];
       }));
       break;
-    
+
     case 'setUserProperties':
       const props = makeTableMap(data.setUserProperties || [], 'name', 'value');
       callAmplitude(data.type, props);
       break;
-    
+
     case 'setGroup':
       const groupName = data.groupName.indexOf(',') > -1 ? stringToArrayAndTrim(data.groupName) : data.groupName;
       callAmplitude(data.type, data.groupType, groupName);
       break;
-    
+
     default:
       callAmplitude(data.type, normalize(data[data.type]));
       break;
