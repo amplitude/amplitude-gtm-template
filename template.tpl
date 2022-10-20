@@ -964,7 +964,7 @@ const onsuccess = () => {
       const eventGroups = makeTableMap((data.eventGroups || []).map(group => {
         return {
           groupType: group.groupType,
-          groupName: group.groupName.indexOf(',') > -1 ? stringToArrayAndTrim(group.groupName) : group.groupName
+          groupName: group.groupName && group.groupName.indexOf(',') > -1 ? stringToArrayAndTrim(group.groupName) : group.groupName
         };
       }), 'groupType', 'groupName');
 
@@ -1155,5 +1155,3 @@ setup: ''
 ___NOTES___
 
 Created on 27/10/2021, 18:34:01
-
-
