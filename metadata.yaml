@@ -2,9 +2,11 @@ homepage: "https://www.amplitude.com/"
 documentation: "https://developers.amplitude.com/docs/javascript"
 versions:
   # Latest version
+  - sha: 851ed92dd6ea016b180bbc388c71f69d915e2554
+    changeNotes: Fix unsafe access of properties for an optional field
+  # Older versions
   - sha: c4620bd0528ce1008f1f623c79d0dfd6e8364b54
     changeNotes: Update JS SDK to 8.18.2
-  # Older versions
   - sha: 5278f8c076cecdd833b6f827833545cc25ebcec2
     changeNotes: Update JS SDK to 8.18.1
   - sha: ece3030f7c2b8b8c7a233fdbf038adfeff61bd47
