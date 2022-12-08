@@ -104,21 +104,6 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "CHECKBOX",
-    "name": "deferInit",
-    "checkboxText": "Defer initialization",
-    "simpleValueType": true,
-    "defaultValue": false,
-    "help": "If you check this box, then this tag will \u003cstrong\u003enot\u003c/strong\u003e call the \u003cstrong\u003einit\u003c/strong\u003e command automatically.\u003cbr/\u003e\u003cbr/\u003eInstead, it will wait either for a tag with the \u003cstrong\u003einit\u003c/strong\u003e type to fire or a tag that does \u003cstrong\u003enot\u003c/strong\u003e have this option checked (as in that case the \u003cstrong\u003einit\u003c/strong\u003e command is run implicitly).\u003cbr/\u003e\u003cbr/\u003eIf you want to defer the initialization, it\u0027s important to check this option for \u003cstrong\u003eall\u003c/strong\u003e tags that need to wait for the \u003cstrong\u003einit\u003c/strong\u003e command \u003cem\u003eand\u003c/em\u003e to create a tag with the type \u003cstrong\u003einit\u003c/strong\u003e to fire once you want to flush the queue of events.",
-    "enablingConditions": [
-      {
-        "paramName": "type",
-        "paramValue": "init",
-        "type": "NOT_EQUALS"
-      }
-    ]
-  },
-  {
-    "type": "CHECKBOX",
     "name": "setOptOut",
     "checkboxText": "Opt current user out of tracking.",
     "simpleValueType": true,
@@ -594,7 +579,7 @@ ___TEMPLATE_PARAMETERS___
     "type": "GROUP",
     "name": "initGroup",
     "displayName": "Initialization",
-    "groupStyle": "ZIPPY_CLOSED",
+    "groupStyle": "ZIPPY_OPEN",
     "subParams": [
       {
         "type": "CHECKBOX",
@@ -835,7 +820,7 @@ ___TEMPLATE_PARAMETERS___
             ],
             "simpleValueType": true,
             "defaultValue": "none",
-            "help": "Choose whether to disable automatic Page View tracking upon history changes (\u003cstrong\u003enone\u003c/strong\u003e), to track \u003cstrong\u003eall\u003c/strong\u003e history events (pushState, popstate...), or whether to collect Page Views only when the page path changes. \u003ca href\u003d\"https://www.docs.developers.amplitude.com/data/sdks/marketing-analytics-browser/#single-page-app-page-view-tracking\"\u003eRead more\u003c/a\u003e.",
+            "help": "Choose whether to disable automatic Page View tracking upon history changes, to track \u003cstrong\u003eall\u003c/strong\u003e history events (pushState, popstate...), or to collect Page Views only when the page path changes. \u003ca href\u003d\"https://www.docs.developers.amplitude.com/data/sdks/marketing-analytics-browser/#single-page-app-page-view-tracking\"\u003eRead more\u003c/a\u003e.",
             "enablingConditions": [
               {
                 "paramName": "attributionPageViewTracking",
@@ -856,9 +841,9 @@ ___TEMPLATE_PARAMETERS___
     ],
     "enablingConditions": [
       {
-        "paramName": "deferInit",
-        "paramValue": true,
-        "type": "NOT_EQUALS"
+        "paramName": "type",
+        "paramValue": "init",
+        "type": "EQUALS"
       }
     ]
   }
@@ -875,7 +860,6 @@ const log = require('logToConsole');
 const makeNumber = require('makeNumber');
 const makeString = require('makeString');
 const makeTableMap = require('makeTableMap');
-const templateStorage = require('templateStorage');
 
 // Constants
 const WRAPPER_VERSION = '3.0.0-beta.4';
@@ -973,22 +957,11 @@ const onsuccess = () => {
 
   _amplitude = copyFromWindow(WRAPPER_NAMESPACE);
   if (!_amplitude) return fail('Failed to load the Amplitude namespace');
-  
-  const configuration = generateConfiguration();
-  
-  // Automatically initialize Amplitude tracker if initialization is not manually deferrerd.
-  // This is only run once per page. Additional initialization commands can be run by creating a tag
-  // with the Tag Type set to "init".
-  if (data.type !== 'init' && !data.deferInit && templateStorage.getItem('_amplitude_init') !== true) {
-    _amplitude('init', data.apiKey, initUserId, configuration);
-    templateStorage.setItem('_amplitude_init', true);
-  }
-
+    
   switch (data.type) {
       
     case 'init':
-      templateStorage.setItem('_amplitude_init', true);
-      _amplitude('init', data.apiKey, initUserId, configuration);
+      _amplitude('init', data.apiKey, initUserId, generateConfiguration());
       break;
 
     case 'track':
@@ -1168,16 +1141,6 @@ ___WEB_PERMISSIONS___
     },
     "clientAnnotations": {
       "isEditedByUser": true
-    },
-    "isRequired": true
-  },
-  {
-    "instance": {
-      "key": {
-        "publicId": "access_template_storage",
-        "versionId": "1"
-      },
-      "param": []
     },
     "isRequired": true
   }
