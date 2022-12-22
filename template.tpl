@@ -16,7 +16,7 @@ ___INFO___
   "categories": [
     "ANALYTICS"
   ],
-  "displayName": "Amplitude Analytics",
+  "displayName": "Amplitude Analytics Legacy",
   "brand": {
     "id": "github.com_amplitude",
     "displayName": "amplitude",
